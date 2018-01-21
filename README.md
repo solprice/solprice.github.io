@@ -1,1 +1,1 @@
-# solprice.github.io
+https://solprice.github.io/
