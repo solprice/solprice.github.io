@@ -1,0 +1,117 @@
+<head>
+
+<script>
+	console.log("new version");
+	console.log("hey hacker ;)");
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
+/*
+	function setPrice() {
+
+	let url = 'https://api.tidex.com/api/3/ticker/sol_eth';
+
+fetch(url)
+.then(res => res.json())
+.then((out) => {
+	datasol=out.sol_eth;
+	lastsoleth=datasol.last;
+	geteth();
+}).catch(err => {throw err});
+
+function geteth() {
+	let url = 'https://api.coinmarketcap.com/v1/ticker/ethereum/';
+
+fetch(url)
+.then(res => res.json())
+.then((out) => {
+	dataeth=out[0];
+	lastethusd=dataeth.price_usd;
+	lastsolusd=lastethusd*lastsoleth;
+	
+	//round
+	//lastsolusd=Math.round(lastsolusd*100)/100;
+	document.getElementById("lastpriceusd").innerHTML=lastsolusd;
+}).catch(err => {throw err});
+
+}
+
+}*/
+
+function geteth() {
+getJSON('https://api.coinmarketcap.com/v1/ticker/ethereum/',
+function(err, data) {
+  if (err !== null) {
+    //alert('Something went wrong: ' + err);
+  } else {
+	dataeth=data[0];
+	lastethusd=dataeth.price_usd;
+	lastsolusd=lastethusd*lastsoleth;
+	
+	//round
+	//lastsolusd=Math.round(lastsolusd*100)/100;
+	document.getElementById("lastpriceusd").innerHTML=lastsolusd;
+
+  }
+});
+
+
+}
+
+function setPrice() {
+
+getJSON('https://api.tidex.com/api/3/ticker/sol_eth',
+function(err, data) {
+  if (err !== null) {
+    //alert('Something went wrong: ' + err);
+  } else {
+    	datasol=data.sol_eth;
+	lastsoleth=datasol.last;
+	geteth();
+
+  }
+});
+
+}
+
+//setInterval(setPrice,1000*60);
+setPrice();
+
+</script>
+
+<style>
+	
+	body {
+		font-family:"Lucida Console";
+	}
+	
+	div.center {
+		padding-top:25%;
+		
+	}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="center">
+	<center style=""> <span style="font-size:50px">SOL Ticker</span><br><br><br>
+	<span style="font-size:25px;"><span>1 SOL = $ </span><span id="lastpriceusd">LOADING</span><span> USD</span></span><br><br><br><br><br><br><br><span>Data used for the conversion is from <a href="https://tidex.com">Tidex</a> and <a href="https://coinmarketcap.com/">CoinMarketCap</a>.</span><br><br><span>Site by <a href="https://sola.ai/yoghurt_">Yoghurt</a>.</span></center> 
+
+</div>
+
+</body>
